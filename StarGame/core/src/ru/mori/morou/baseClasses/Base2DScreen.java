@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
+
+import ru.mori.morou.Marh.Rect;
 
 /**
  *  show - отоброжение
@@ -27,10 +30,23 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Base2DScreen implements Screen, InputProcessor {
 
     protected SpriteBatch batch;
+    private Rect screeenBounds;
+    private Rect worldBounds;
+    private Rect glBounds;
+    protected Matrix4 worldToGl;
+
+    public Base2DScreen() {
+        this.batch = batch;
+        this.screeenBounds = screeenBounds;
+        this.worldBounds = worldBounds;
+        this.glBounds = glBounds;
+        this.worldToGl = worldToGl;
+    }
 
     @Override
     public void show() {
         batch = new SpriteBatch();
+        batch.getProjectionMatrix().idt();
         Gdx.input.setInputProcessor(this);
 
     }
@@ -42,6 +58,14 @@ public class Base2DScreen implements Screen, InputProcessor {
 
     @Override
     public void resize(int width, int height) {
+        screeenBounds.setSize(width, height);
+        screeenBounds.setLeft(0);
+        screeenBounds.setBotton(0);
+
+        float aspect = width / (float) height;
+        worldBounds.setWeight(1f);
+        worldBounds.setHeight(1f);
+
 
     }
 

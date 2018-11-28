@@ -31,27 +31,7 @@ public class GamePlay extends Base2DScreen {
     private Vector2 position = new Vector2(100, 100);
     private Vector2 finalPosition = new Vector2();
     private Vector2 speed = new Vector2();
-
-
-
-    private void moving() {
-        if (speed.len() > 0) {
-            final Vector2 currentPos = position.cpy();
-            final Vector2 newPos = finalPosition.cpy();
-            float distance = currentPos.sub(newPos).len();
-
-            if (distance > speed.len()) {
-                position.add(speed);
-            } else {
-                position.set(finalPosition);
-                stopMoving();
-            }
-        }
-    }
-
-    private void stopMoving() {
-        finalPosition.set(0,0);
-    }
+    private Vector2 buffer = new Vector2();
 
 
     @Override
@@ -59,7 +39,6 @@ public class GamePlay extends Base2DScreen {
         super.show();
         spaceCraft = new Texture("spacecraft2.png");
         background = new Texture("space2.png");
-        moving();
 
     }
 
@@ -69,9 +48,15 @@ public class GamePlay extends Base2DScreen {
         super.render(delta);
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        buffer.set(finalPosition);
+        if (buffer.sub(position).len() > 0.5f) {
+            position.add(speed);
+        } else {
+            position.set(finalPosition);
+        }
         batch.begin();
-        batch.draw(background, 0, 0, 1000, 1000);
-        batch.draw(spaceCraft, finalPosition.x+speed.x, finalPosition.y+speed.y, 100, 100);
+        batch.draw(background, 0, 0, 2f, 2f);
+        batch.draw(spaceCraft, position.x, position.y);
         batch.end();
     }
 
@@ -91,16 +76,7 @@ public class GamePlay extends Base2DScreen {
         super.touchDown(screenX, screenY, pointer, button);
         //we must rotate the coordinate axis
         finalPosition.set(screenX, Gdx.graphics.getHeight() - screenY);
-        movingTo(finalPosition.x, finalPosition.y);
+        speed.set(finalPosition.cpy().sub(position).setLength(0.5f));
         return false;
-    }
-
-    private void movingTo(float finalPositionX, float finalPositionY){
-        finalPosition.set(finalPositionX, finalPositionY);
-        speed.set(finalPosition.cpy().sub(position));
-        speed.nor();
-        speed.scl(5f);
-        System.out.print(speed);
-
     }
 }
