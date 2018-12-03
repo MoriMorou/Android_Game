@@ -1,14 +1,21 @@
 package ru.mori.morou.screen;
 
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import ru.mori.morou.Marh.Rect;
+import ru.mori.morou.base.ActionListener;
 import ru.mori.morou.base.Base2DScreen;
+import ru.mori.morou.sprite.ButtonExit;
+import ru.mori.morou.sprite.ButtonStart;
+import ru.mori.morou.sprite.Hero;
+import ru.mori.morou.sprite.Star;
+import ru.mori.morou.sprite.Background;
 
 /**
  * add() - Сложение двух векторов.
@@ -24,77 +31,113 @@ import ru.mori.morou.base.Base2DScreen;
  *
  */
 
-public class MenuScreen extends Base2DScreen {
+public class MenuScreen extends Base2DScreen implements ActionListener {
 
-    private Texture img;
-    private Texture back;
-    private Vector2 pos;
-    private Vector2 v;
-    private Vector2 touch;
-    private Vector2 buf;
+    private static final int STAR_COUNT = 100;
+    private static final float PRESS_SCALE = 0.9f;
+    private static final float START_BUTTON_HEIGHT = 0.15f;
+    private static final float EXIT_BUTTON_HEIGHT = 0.125f;
+
+    private Texture bg;
+    private TextureAtlas atlasMain;
+    private Background background;
+    private Star[] star;
+    private Hero hero;
+    private ButtonExit buttonExit;
+    private ButtonStart buttonStart;
+    private TextureAtlas buttonMenu;
+
 
     @Override
     public void show() {
         super.show();
-        img = new Texture("spacecraft2.png");
-        back = new Texture("space2.png");
-        pos = new Vector2(0,0);
-        v = new Vector2();
-        touch = new Vector2();
-        buf = new Vector2();
+        atlasMain = new TextureAtlas("textures/menuAtlas.tpack");
+        bg = new Texture("space2.png");
+        background = new Background(new TextureRegion(bg));
+        star = new Star[STAR_COUNT];
+        hero = new Hero();
+
+        for (int i = 0; i < star.length; i++) {
+            star[i] = new Star(atlasMain);
+        }
+
+        buttonExit = new ButtonExit(atlasMain, this, PRESS_SCALE);
+        buttonExit.setHeightProportion(EXIT_BUTTON_HEIGHT);
+
+        buttonStart = new ButtonStart(atlasMain, this, PRESS_SCALE);
+        buttonStart.setHeightProportion(START_BUTTON_HEIGHT);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        Gdx.gl.glClearColor(0f, 0, 0f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        buf.set(touch);
-        if(buf.set(pos).len() >= v.len()) {
-            pos.add(v);
-        } else {
-            pos.set(touch);
+        update(delta);
+        draw();
+    }
+
+    public void update(float delta) {
+        for (int i = 0; i < star.length; i++) {
+            star[i].update(delta);
         }
+    }
+
+    public void draw() {
+        Gdx.gl.glClearColor(1, 0.3f, 0.6f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(img, pos.x, pos.y, 10f, 10f);
+        background.draw(batch);
+        for (int i = 0; i < star.length; i++) {
+            star[i].draw(batch);
+        }
+        buttonExit.draw(batch);
+        buttonStart.draw(batch);
         batch.end();
     }
 
     @Override
+    public void resize(Rect worldBounds) {
+        super.resize(worldBounds);
+        background.resize(worldBounds);
+        for (int i = 0; i < star.length; i++) {
+            star[i].resize(worldBounds);
+        }
+        buttonExit.resize(worldBounds);
+        buttonStart.resize(worldBounds);
+    }
+
+    @Override
     public void dispose() {
-        img.dispose();
+        atlasMain.dispose();
+        bg.dispose();
         super.dispose();
     }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
-        this.touch = touch;
-        v.set(touch.cpy().sub(pos).scl(0.01f));
+        super.touchDown(touch, pointer);
+        buttonExit.touchDown(touch, pointer);
+        buttonStart.touchDown(touch, pointer);
         return false;
     }
+
     @Override
-    public boolean keyDown(int keycode) {
-        float step = 0.1f;
-        switch (keycode) {
-            case Input.Keys.UP:
-                touch = new Vector2(pos.x, pos.y + step);
-                break;
-            case Input.Keys.RIGHT:
-                touch = new Vector2(pos.x + step, pos.y);
-                break;
-            case Input.Keys.DOWN:
-                touch = new Vector2(pos.x, pos.y - step);
-                break;
-            case Input.Keys.LEFT:
-                touch = new Vector2(pos.x - step, pos.y);
-                break;
-            default:
-                break;
+    public boolean touchUp(Vector2 touch, int pointer) {
+        super.touchDown(touch, pointer);
+        buttonExit.touchUp(touch, pointer);
+        buttonStart.touchUp(touch, pointer);
+        return false;
+    }
+
+
+    @Override
+    public void actionPerformed(Object src) {
+        if(src == buttonExit){
+            System.out.println("check point");
+            Gdx.app.exit();
+        }else{
+            throw new RuntimeException("Error");
         }
-        if (touch != pos) {
-            v = touch.cpy().sub(pos).nor();
-        }
-        return super.keyDown(keycode);
     }
 }
+
 
