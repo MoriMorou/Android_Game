@@ -9,12 +9,12 @@ import ru.mori.morou.base.ButtonAction;
 public class ButtonExit extends ButtonAction {
 
     public ButtonExit(TextureAtlas atlas, ActionListener actionListener, float pressScale) {
-        super(atlas.findRegion("btExit"), actionListener, pressScale);
+        super(atlas.findRegion("exitUp"), actionListener, pressScale);
     }
 
     @Override
     public void resize(Rect worldBounds) {
-        setBottom(worldBounds.getBottom() + 0.03f);
-        setRight(worldBounds.getRight() - 0.03f);
+        setBottom(worldBounds.getBottom() + 0f);
+        setRight(worldBounds.getRight() - 0f);
     }
 }

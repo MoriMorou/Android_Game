@@ -9,13 +9,13 @@ import ru.mori.morou.base.ButtonAction;
 public class ButtonStart extends ButtonAction {
 
     public ButtonStart(TextureAtlas atlas, ActionListener actionListener, float pressScale) {
-        super(atlas.findRegion("btPlay"), actionListener, pressScale);
+        super(atlas.findRegion("startUp"), actionListener, pressScale);
     }
 
     @Override
     public void resize(Rect worldBounds) {
-        setBottom(worldBounds.getBottom() + 0.03f);
-        setLeft(worldBounds.getLeft() + 0.03f);
+        setBottom(worldBounds.getBottom() + 0f);
+        setLeft(worldBounds.getLeft() + 0f);
     }
 }
 

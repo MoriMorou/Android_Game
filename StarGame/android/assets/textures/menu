@@ -4,14 +4,14 @@ size: 2048,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-button_down
+startDown
   rotate: false
   xy: 2, 2
   size: 812, 396
   orig: 812, 396
   offset: 0, 0
   index: -1
-button_up
+startUp
   rotate: false
   xy: 2, 400
   size: 812, 396
