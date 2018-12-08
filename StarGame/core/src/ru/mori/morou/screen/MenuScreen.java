@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.mori.morou.Marh.Rect;
-import ru.mori.morou.base.ActionListener;
 import ru.mori.morou.base.Base2DScreen;
 import ru.mori.morou.sprite.ButtonExit;
 import ru.mori.morou.sprite.ButtonStart;
@@ -31,7 +30,7 @@ import ru.mori.morou.sprite.Background;
  *
  */
 
-public class MenuScreen extends Base2DScreen implements ActionListener {
+public class MenuScreen extends Base2DScreen{
 
     private static final int STAR_COUNT = 100;
     private static final float PRESS_SCALE = 0.9f;
@@ -126,17 +125,6 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
         buttonExit.touchUp(touch, pointer);
         buttonStart.touchUp(touch, pointer);
         return false;
-    }
-
-
-    @Override
-    public void actionPerformed(Object src) {
-        if(src == buttonExit){
-            System.out.println("check point");
-            Gdx.app.exit();
-        }else{
-            throw new RuntimeException("Error");
-        }
     }
 }
 

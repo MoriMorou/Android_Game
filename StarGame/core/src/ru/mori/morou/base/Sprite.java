@@ -12,11 +12,19 @@ public class Sprite extends Rect {
     protected float scale = 1f;
     protected TextureRegion[] regions;
     protected int frame;
+    private boolean isDestroyed;
+
+    public Sprite() {
+    }
 
     public Sprite(TextureRegion region) {
         regions = new TextureRegion[1];
         regions[0] = region;
     }
+
+//    public Sprite(TextureRegion region, int rows, int cols, int frames) {
+//        regions = Regions.split(region, rows, cols, frames);
+//    }
 
     public void draw(SpriteBatch batch){
         batch.draw(
@@ -67,5 +75,13 @@ public class Sprite extends Rect {
         this.scale = scale;
     }
 
+    public boolean isDestroyed() {
+        return isDestroyed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        isDestroyed = destroyed;
+    }
 }
+
 
