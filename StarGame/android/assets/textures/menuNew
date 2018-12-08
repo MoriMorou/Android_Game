@@ -1,0 +1,27 @@
+
+menuNew.png
+size: 2048,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+exitUp
+  rotate: false
+  xy: 2, 114
+  size: 581, 138
+  orig: 581, 138
+  offset: 0, 0
+  index: -1
+star
+  rotate: false
+  xy: 1168, 2
+  size: 334, 250
+  orig: 334, 250
+  offset: 0, 0
+  index: -1
+startUp
+  rotate: false
+  xy: 585, 114
+  size: 581, 138
+  orig: 581, 138
+  offset: 0, 0
+  index: -1

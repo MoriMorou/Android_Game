@@ -14,8 +14,8 @@ public class ButtonStart extends ButtonAction {
 
     @Override
     public void resize(Rect worldBounds) {
-        setBottom(worldBounds.getBottom() + 0f);
-        setLeft(worldBounds.getLeft() + 0f);
+        setBottom(worldBounds.getBottom() + 0.03f);
+        setLeft(worldBounds.getLeft() + 0.03f);
     }
 }
 

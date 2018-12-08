@@ -14,7 +14,7 @@ public class ButtonExit extends ButtonAction {
 
     @Override
     public void resize(Rect worldBounds) {
-        setBottom(worldBounds.getBottom() + 0f);
-        setRight(worldBounds.getRight() - 0f);
+        setBottom(worldBounds.getBottom() + 0.03f);
+        setRight(worldBounds.getRight() - 0.03f);
     }
 }

@@ -35,8 +35,8 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
 
     private static final int STAR_COUNT = 100;
     private static final float PRESS_SCALE = 0.9f;
-    private static final float START_BUTTON_HEIGHT = 0.15f;
-    private static final float EXIT_BUTTON_HEIGHT = 0.15f;
+    private static final float START_BUTTON_HEIGHT = 0.05f;
+    private static final float EXIT_BUTTON_HEIGHT = 0.05f;
 
     private Texture bg;
     private TextureAtlas atlasMain;
@@ -45,13 +45,13 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
     private Hero hero;
     private ButtonExit buttonExit;
     private ButtonStart buttonStart;
-    private TextureAtlas buttonMenu;
+    private TextureAtlas menuNew;
 
 
     @Override
     public void show() {
         super.show();
-        atlasMain = new TextureAtlas("textures/menu");
+        atlasMain = new TextureAtlas("textures/menuNew");
         bg = new Texture("space.png");
         background = new Background(new TextureRegion(bg));
         star = new Star[STAR_COUNT];
