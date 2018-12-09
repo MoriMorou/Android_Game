@@ -1,5 +1,6 @@
 package ru.mori.morou.sprite;
 
+
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ru.mori.morou.Marh.Rect;

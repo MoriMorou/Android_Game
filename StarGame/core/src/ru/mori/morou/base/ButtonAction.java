@@ -11,36 +11,38 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class ButtonAction extends Sprite {
 
+    private static final float PRESS_SCALE = 0.9f;
+
     private int pointer;
     private boolean pressed;
-    private float pressScale;
 
-    public ButtonAction(TextureRegion region, float pressScale) {
+    public ButtonAction(TextureRegion region) {
         super(region);
-        this.pressed = false;
-        this.pressScale = pressScale;
     }
+
     @Override
-    public void touchDown(Vector2 touch, int pointer) {
-        if(pressed || !isMe(touch)){
-            return;
+    public boolean touchDown(Vector2 touch, int pointer) {
+        if (pressed || !isMe(touch)) {
+            return false;
         }
+        pressed = true;
         this.pointer = pointer;
-        this.pressed = true;
-        this.scale = pressScale;
+        scale = PRESS_SCALE;
+        return false;
     }
+
     @Override
-    public void touchUp(Vector2 touch, int indicator) {
-        if(this.pointer != pointer || !pressed){
-            return;
+    public boolean touchUp(Vector2 touch, int pointer) {
+        if (this.pointer != pointer || !pressed) {
+            return false;
         }
-        if(isMe(touch)){
+        if (isMe(touch)) {
             actionPerformed();
         }
-        this.pressed = false;
-        this.scale = 1f;
+        pressed = false;
+        scale = 1f;
+        return false;
     }
 
     protected abstract void actionPerformed();
 }
-

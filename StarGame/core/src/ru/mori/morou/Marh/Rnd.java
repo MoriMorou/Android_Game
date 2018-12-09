@@ -18,3 +18,4 @@ public class Rnd {
         return random.nextFloat() * (max - min) + min;
     }
 }
+

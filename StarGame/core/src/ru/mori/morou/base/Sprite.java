@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.mori.morou.Marh.Rect;
+import ru.mori.morou.utils.Regions;
 
 public class Sprite extends Rect {
 
@@ -22,22 +23,22 @@ public class Sprite extends Rect {
         regions[0] = region;
     }
 
-//    public Sprite(TextureRegion region, int rows, int cols, int frames) {
-//        regions = Regions.split(region, rows, cols, frames);
-//    }
+    public Sprite(TextureRegion region, int rows, int cols, int frames) {
+        regions = Regions.split(region, rows, cols, frames);
+    }
 
-    public void draw(SpriteBatch batch){
+    public void draw(SpriteBatch batch) {
         batch.draw(
                 regions[frame], //текущий регион
                 getLeft(), getBottom(), //точка отрисовки
-                halfWidth, halfHeight, //точка вращения
-                getWidth(), getHeight(),//ширина и высота
-                scale, scale, //масштаб по оси
-                angle //угол вращения
+                halfWidth, halfHeight, // точка вращения
+                getWidth(), getHeight(), // ширина и высота
+                scale, scale, // масштаб по оси x и по оси y
+                angle // угол вращения
         );
     }
 
-    public void setHeightProportion(float height){
+    public void setHeightProportion(float height) {
         setHeight(height);
         float aspect = regions[frame].getRegionWidth() / (float) regions[frame].getRegionHeight();
         setWidth(height*aspect);
@@ -47,16 +48,16 @@ public class Sprite extends Rect {
 
     }
 
-    public void touchDown(Vector2 touch, int pointer) {
-
-    }
-
-    public void touchUp(Vector2 touch, int pointer) {
-
-    }
-
     public void update(float delta) {
 
+    }
+
+    public boolean touchDown(Vector2 touch, int pointer) {
+        return false;
+    }
+
+    public boolean touchUp(Vector2 touch, int pointer) {
+        return false;
     }
 
     public float getAngle() {

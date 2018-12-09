@@ -1,7 +1,9 @@
 package ru.mori.morou.screen;
 
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -12,7 +14,6 @@ import ru.mori.morou.Marh.Rect;
 import ru.mori.morou.base.Base2DScreen;
 import ru.mori.morou.sprite.ButtonExit;
 import ru.mori.morou.sprite.ButtonStart;
-import ru.mori.morou.sprite.Hero;
 import ru.mori.morou.sprite.Star;
 import ru.mori.morou.sprite.Background;
 
@@ -32,39 +33,38 @@ import ru.mori.morou.sprite.Background;
 
 public class MenuScreen extends Base2DScreen{
 
-    private static final int STAR_COUNT = 100;
-    private static final float PRESS_SCALE = 0.9f;
-    private static final float START_BUTTON_HEIGHT = 0.05f;
-    private static final float EXIT_BUTTON_HEIGHT = 0.05f;
+    private static final int STAR_COUNT = 256;
 
     private Texture bg;
-    private TextureAtlas atlasMain;
+    private TextureAtlas textureAtlas;
+
     private Background background;
+
     private Star[] star;
-    private Hero hero;
+
     private ButtonExit buttonExit;
     private ButtonStart buttonStart;
-    private TextureAtlas menuNew;
+
+    private Music backgroundMusic;
+
+    public MenuScreen(Game game) {
+        super(game);
+    }
 
 
     @Override
     public void show() {
         super.show();
-        atlasMain = new TextureAtlas("textures/menuNew");
-        bg = new Texture("space.png");
+        textureAtlas = new TextureAtlas("textures/menuNew");
+        bg = new Texture("textures/space.png");
         background = new Background(new TextureRegion(bg));
         star = new Star[STAR_COUNT];
-        hero = new Hero();
-
         for (int i = 0; i < star.length; i++) {
-            star[i] = new Star(atlasMain);
+            star[i] = new Star(textureAtlas);
         }
+        buttonExit = new ButtonExit(textureAtlas);
+        buttonStart = new ButtonStart(textureAtlas, game);
 
-        buttonExit = new ButtonExit(atlasMain, this, PRESS_SCALE);
-        buttonExit.setHeightProportion(EXIT_BUTTON_HEIGHT);
-
-        buttonStart = new ButtonStart(atlasMain, this, PRESS_SCALE);
-        buttonStart.setHeightProportion(START_BUTTON_HEIGHT);
     }
 
     @Override
@@ -81,8 +81,9 @@ public class MenuScreen extends Base2DScreen{
     }
 
     public void draw() {
-        Gdx.gl.glClearColor(0, 0.3f, 0.6f, 1);
+        Gdx.gl.glClearColor(0, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         batch.begin();
         background.draw(batch);
         for (int i = 0; i < star.length; i++) {
@@ -106,26 +107,23 @@ public class MenuScreen extends Base2DScreen{
 
     @Override
     public void dispose() {
-        atlasMain.dispose();
+        textureAtlas.dispose();
         bg.dispose();
         super.dispose();
     }
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
-        super.touchDown(touch, pointer);
         buttonExit.touchDown(touch, pointer);
         buttonStart.touchDown(touch, pointer);
-        return false;
+        return super.touchDown(touch, pointer);
     }
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer) {
-        super.touchDown(touch, pointer);
         buttonExit.touchUp(touch, pointer);
         buttonStart.touchUp(touch, pointer);
-        return false;
+        return super.touchUp(touch, pointer);
     }
+
 }
-
-

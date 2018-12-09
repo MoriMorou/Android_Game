@@ -9,7 +9,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Star Game";
-		float aspect = 3f / 4f;
+		float aspect = 3f/4f;
 		config.width = 600;
 		config.height = (int) (config.width / aspect);
 		config.resizable = false;

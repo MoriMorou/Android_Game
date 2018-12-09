@@ -5,23 +5,24 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import ru.mori.morou.Marh.Rect;
 import ru.mori.morou.base.ButtonAction;
-import ru.mori.morou.screen.MenuScreen;
+
 
 public class ButtonExit extends ButtonAction {
 
-    public ButtonExit(TextureAtlas atlas, MenuScreen menuScreen, float pressScale) {
-        super(atlas.findRegion("exitUp"), pressScale);
+    public ButtonExit(TextureAtlas atlas) {
+        super(atlas.findRegion("exitUp"));
+        setHeightProportion(0.03f);
     }
 
     @Override
     public void resize(Rect worldBounds) {
-        setBottom(worldBounds.getBottom() + 0.03f);
-        setRight(worldBounds.getRight() - 0.03f);
+        super.resize(worldBounds);
+        setBottom(worldBounds.getBottom() + 0.01f);
+        setRight(worldBounds.getRight() - 0.01f);
     }
 
-
     @Override
-    protected void actionPerformed() {
+    public void actionPerformed() {
         Gdx.app.exit();
     }
 }

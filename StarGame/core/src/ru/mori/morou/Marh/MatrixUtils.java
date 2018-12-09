@@ -35,4 +35,3 @@ public class MatrixUtils {
         mat.idt().translate(dst.pos.x, dst.pos.y).scale(scaleX, scaleY).translate(-src.pos.x, -src.pos.y);
     }
 }
-

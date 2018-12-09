@@ -32,11 +32,10 @@ import ru.mori.morou.Marh.Rect;
 */
 
 public class Base2DScreen implements Screen, InputProcessor {
-
     protected SpriteBatch batch;
 
     private Rect screenBounds; // границы области рисования в пикселях
-    private Rect worldBounds; // границы проекции мировых координат
+    protected Rect worldBounds; // границы проекции мировых координат
     private Rect glBounds; // дефолтные границы проекции мир - gl
 
     protected Matrix4 worldToGl;
@@ -44,8 +43,10 @@ public class Base2DScreen implements Screen, InputProcessor {
 
     private Vector2 touch = new Vector2();
 
+    protected Game game;
 
-    public Base2DScreen() {
+    public Base2DScreen(Game game) {
+        this.game = game;
         this.screenBounds = new Rect();
         this.worldBounds = new Rect();
         this.glBounds = new Rect(0,0,1f, 1f);
