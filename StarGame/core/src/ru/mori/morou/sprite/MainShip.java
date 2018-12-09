@@ -119,13 +119,18 @@ public class MainShip extends Ship {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
-//тут нужно написать ограниечение по полям ( не понимаю как сделать лучше)
-        return super.touchDown(touch, pointer);
+        if(touch.x < worldBounds.pos.x){
+            moveLeft();
+        } else {
+            moveRight();
+        }
+        return false;
     }
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer) {
-        return super.touchUp(touch, pointer);
+        shoot();
+        return false;
     }
 
     private void moveRight() {
