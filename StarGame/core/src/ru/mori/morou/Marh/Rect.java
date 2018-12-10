@@ -14,8 +14,6 @@ public class Rect {
     protected float halfWidth; // половина ширины
     protected float halfHeight; // половина высоты
 
-
-
     public Rect() {
 
     }

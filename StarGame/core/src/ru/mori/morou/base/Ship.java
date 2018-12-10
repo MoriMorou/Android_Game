@@ -14,13 +14,16 @@ import ru.mori.morou.sprite.Bullet;
 
 public class Ship extends Sprite {
 
+    //вектор скорости
     protected Vector2 v = new Vector2();
+    //рамки
     protected Rect worldBounds;
 
     protected BulletPool bulletPool;
     protected TextureRegion bulletRegion;
-
     protected final Vector2 bulletV = new Vector2();
+    protected float bulletHeight;
+    protected int bulletDamage;
 
     protected Sound shootSound;
 
@@ -50,7 +53,7 @@ public class Ship extends Sprite {
 
     protected void shoot() {
         Bullet bullet = bulletPool.obtain();
-        bullet.set(this, bulletRegion, pos, bulletV, worldBounds);
+        bullet.set(this, bulletRegion, pos, bulletV, bulletHeight, worldBounds, bulletDamage);
         shootSound.play();
     }
 }

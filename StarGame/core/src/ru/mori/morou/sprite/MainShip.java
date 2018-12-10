@@ -10,7 +10,14 @@ import ru.mori.morou.base.Ship;
 import ru.mori.morou.pool.BulletPool;
 
 
+/**
+ * @param
+ */
+
+
 public class MainShip extends Ship {
+
+    private static final int INVALID_POINTER = -1;
 
     private Vector2 v0 = new Vector2(0.5f, 0);
     private Vector2 v = new Vector2();
@@ -20,11 +27,17 @@ public class MainShip extends Ship {
     private boolean pressedUp;
     private boolean pressedDown;
 
+    private int leftPointer = INVALID_POINTER;
+    private int rightPointer = INVALID_POINTER;
+
     private BulletPool bulletPool;
 
     private TextureAtlas atlas;
 
     private Rect worldBounds;
+
+    private float reloadInternal;
+    private float reloadTimer;
 
     public MainShip(TextureAtlas atlas, BulletPool bulletPool, Rect worldBounds) {
         super(atlas.findRegion("main_ship"), 1, 2, 2, worldBounds);
@@ -32,12 +45,37 @@ public class MainShip extends Ship {
         this.bulletPool = bulletPool;
         this.atlas = atlas;
         this.worldBounds = worldBounds;
+        this.reloadInternal = 0.2f;
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
         pos.mulAdd(v, delta);
+
+        reloadTimer += delta;
+        // автоматизация выстрелов
+        if (reloadTimer >= reloadInternal) {
+            reloadTimer = 0f;
+            shoot();
+        }
+
+        if (getRight() > worldBounds.getRight()) {
+            setRight(worldBounds.getRight());
+            stop();
+        }
+        if (getLeft() < worldBounds.getLeft()) {
+            setLeft(worldBounds.getLeft());
+            stop();
+        }
+        if (getTop() > worldBounds.getTop()) {
+            setTop(worldBounds.getTop());
+            stop();
+        }
+        if (getBottom() < worldBounds.getBottom()) {
+            setBottom(worldBounds.getBottom());
+            stop();
+        }
     }
 
     @Override
@@ -119,9 +157,13 @@ public class MainShip extends Ship {
 
     @Override
     public boolean touchDown(Vector2 touch, int pointer) {
-        if(touch.x < worldBounds.pos.x){
+        if (touch.x < worldBounds.pos.x){
+            if (leftPointer != INVALID_POINTER) return false;
+            leftPointer = pointer;
             moveLeft();
         } else {
+            if (rightPointer != INVALID_POINTER) return false;
+            rightPointer = pointer;
             moveRight();
         }
         return false;
@@ -129,7 +171,21 @@ public class MainShip extends Ship {
 
     @Override
     public boolean touchUp(Vector2 touch, int pointer) {
-        shoot();
+        if (pointer == leftPointer) {
+            leftPointer = INVALID_POINTER;
+            if (rightPointer != INVALID_POINTER) {
+                moveRight();
+            } else {
+                stop();
+            }
+        } else if (pointer == rightPointer) {
+            rightPointer = INVALID_POINTER;
+            if (leftPointer != INVALID_POINTER) {
+                moveLeft();
+            } else {
+                stop();
+            }
+        }
         return false;
     }
 
@@ -161,4 +217,6 @@ public class MainShip extends Ship {
         Bullet bullet = bulletPool.obtain();
         bullet.set(this, atlas.findRegion("bulletMainShip"),pos, new Vector2(0, 0.5f), 0.01f, worldBounds, 1);
     }
+
+
 }
