@@ -14,9 +14,11 @@ import com.badlogic.gdx.math.Vector2;
 import ru.mori.morou.Marh.Rect;
 import ru.mori.morou.base.Base2DScreen;
 import ru.mori.morou.pool.BulletPool;
+import ru.mori.morou.pool.EnemyPool;
 import ru.mori.morou.sprite.Background;
 import ru.mori.morou.sprite.MainShip;
 import ru.mori.morou.sprite.Star;
+import ru.mori.morou.utils.EnemiesEmitter;
 
 /**
  * @method checkCollisions - проверка столкновений
@@ -36,8 +38,13 @@ public class GameScreen extends Base2DScreen {
 
     private BulletPool bulletPool;
 
+    private EnemyPool enemyPool;
+
+    private EnemiesEmitter enemiesEmitter;
+
     private Music backgroundMusic;
     private Sound mainShipBulletSound;
+    private Sound enemyShipBulletSound;
 
     public GameScreen(Game game) {
         super(game);
@@ -54,11 +61,17 @@ public class GameScreen extends Base2DScreen {
             star[i] = new Star(textureAtlas);
         }
         bulletPool = new BulletPool();
-        mainShip = new MainShip(textureAtlas, bulletPool, worldBounds);
+        mainShipBulletSound = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
+        enemyShipBulletSound = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
+        mainShip = new MainShip(textureAtlas, bulletPool, worldBounds, mainShipBulletSound);
 
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/Doom4  - BFG Division (Simpsonill Remix).mp3"));
+        enemyPool = new EnemyPool(bulletPool, mainShip, worldBounds, enemyShipBulletSound);
+        enemiesEmitter = new EnemiesEmitter(worldBounds, enemyPool, textureAtlas);
+
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/Doom4  - BFG Division " +
+                "(Simpsonill Remix).mp3"));
         backgroundMusic.setLooping(true);
-        backgroundMusic.play();
+ //        backgroundMusic.play();
 
     }
 
@@ -76,6 +89,8 @@ public class GameScreen extends Base2DScreen {
         }
         mainShip.update(delta);
         bulletPool.updateActiveSprites(delta);
+        enemyPool.updateActiveSprites(delta);
+        enemiesEmitter.generate(delta);
 //        backgroundMusic.stop();
     }
 
@@ -85,6 +100,7 @@ public class GameScreen extends Base2DScreen {
 
     public void deleteAllDestroyed() {
         bulletPool.freeAllDestroyedActiveSprites();
+        enemyPool.freeAllDestroyedActiveSprites();
     }
 
     public void draw() {
@@ -98,6 +114,7 @@ public class GameScreen extends Base2DScreen {
         }
         mainShip.draw(batch);
         bulletPool.drawActiveSprites(batch);
+        enemyPool.drawActiveSprites(batch);
         batch.end();
     }
 
@@ -116,7 +133,10 @@ public class GameScreen extends Base2DScreen {
         bg.dispose();
         textureAtlas.dispose();
         bulletPool.dispose();
+        enemyPool.dispose();
         backgroundMusic.dispose();
+        mainShipBulletSound.dispose();
+        enemyShipBulletSound.dispose();
         super.dispose();
     }
 

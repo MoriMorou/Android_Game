@@ -2,6 +2,7 @@ package ru.mori.morou.sprite;
 
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
@@ -35,17 +36,20 @@ public class MainShip extends Ship {
     private TextureAtlas atlas;
 
     private Rect worldBounds;
+    private Sound sound;
 
-    private float reloadInternal;
-    private float reloadTimer;
-
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Rect worldBounds) {
-        super(atlas.findRegion("main_ship"), 1, 2, 2, worldBounds);
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Rect worldBounds, Sound sound) {
+        super(atlas.findRegion("main_ship"), 1, 2, 2, worldBounds, sound);
         setHeightProportion(0.15f);
         this.bulletPool = bulletPool;
         this.atlas = atlas;
         this.worldBounds = worldBounds;
-        this.reloadInternal = 0.2f;
+        this.reloadInternal = 0.1f;
+        this.bulletRegion = atlas.findRegion("bulletMainShip");
+        this.bulletHeight = 0.01f;
+        this.bulletV.set(0, 0.5f);
+        this.bulletDamage = 1;
+        this.hp = 100;
     }
 
     @Override

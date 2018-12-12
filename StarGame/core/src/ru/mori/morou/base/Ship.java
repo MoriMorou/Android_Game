@@ -24,21 +24,23 @@ public class Ship extends Sprite {
     protected final Vector2 bulletV = new Vector2();
     protected float bulletHeight;
     protected int bulletDamage;
+    protected int hp;
 
-    protected Sound shootSound;
+    protected float reloadInternal;
+    protected float reloadTimer;
 
-//    public Ship(BulletPool bulletPool, Rect worldBounds) {
-//        this.bulletPool = bulletPool;
-//        this.worldBounds = worldBounds;
-//    }
-//    public Ship(TextureRegion region, int rows, int columns, int frames) {
-//        super(region, rows, columns, frames);
-//
-//    }
+    protected Sound sound;
 
-    public Ship(TextureRegion region, int rows, int columns, int frames, Rect worldBounds) {
+    // для врагов
+    public Ship() {
+
+    }
+
+    // для основного корабля
+    public Ship(TextureRegion region, int rows, int columns, int frames, Rect worldBounds, Sound sound) {
         super(region, rows, columns, frames);
         this.worldBounds = worldBounds;
+        this.sound = sound;
     }
 
     @Override
@@ -48,12 +50,13 @@ public class Ship extends Sprite {
 
     @Override
     public void resize(Rect worldBounds) {
-        this.worldBounds = worldBounds;
+        super.resize(worldBounds);
+        setBottom(worldBounds.getBottom() + 0.05f);
     }
 
     protected void shoot() {
         Bullet bullet = bulletPool.obtain();
         bullet.set(this, bulletRegion, pos, bulletV, bulletHeight, worldBounds, bulletDamage);
-        shootSound.play();
+        sound.play();
     }
 }
