@@ -11,19 +11,22 @@ import ru.mori.morou.sprite.MainShip;
 public class EnemyPool extends SpritesPool<Enemy> {
 
     private BulletPool bulletPool;
+    private ExplosionPool explosionPool;
     private MainShip mainShip;
     private Rect worldBounds;
     private Sound sound;
 
-    public EnemyPool(BulletPool bulletPool, MainShip mainShip, Rect worldBounds, Sound sound) {
+    public EnemyPool(BulletPool bulletPool, ExplosionPool explosionPool, MainShip mainShip,
+                     Rect worldBounds, Sound sound) {
         this.bulletPool = bulletPool;
         this.mainShip = mainShip;
+        this.explosionPool = explosionPool;
         this.worldBounds = worldBounds;
         this.sound = sound;
     }
 
     @Override
     protected Enemy newObject() {
-        return new Enemy(bulletPool, mainShip, worldBounds, sound);
+        return new Enemy(bulletPool, explosionPool, mainShip, worldBounds, sound);
     }
 }

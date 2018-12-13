@@ -11,11 +11,16 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.List;
+
 import ru.mori.morou.Marh.Rect;
 import ru.mori.morou.base.Base2DScreen;
 import ru.mori.morou.pool.BulletPool;
 import ru.mori.morou.pool.EnemyPool;
+import ru.mori.morou.pool.ExplosionPool;
 import ru.mori.morou.sprite.Background;
+import ru.mori.morou.sprite.Bullet;
+import ru.mori.morou.sprite.Enemy;
 import ru.mori.morou.sprite.MainShip;
 import ru.mori.morou.sprite.Star;
 import ru.mori.morou.utils.EnemiesEmitter;
@@ -37,14 +42,15 @@ public class GameScreen extends Base2DScreen {
     private MainShip mainShip;
 
     private BulletPool bulletPool;
-
     private EnemyPool enemyPool;
+    private ExplosionPool explosionPool;
 
     private EnemiesEmitter enemiesEmitter;
 
-    private Music backgroundMusic;
-    private Sound mainShipBulletSound;
-    private Sound enemyShipBulletSound;
+    private Music music;
+    private Sound mainShipShootSound;
+    private Sound enemyShipShootSound;
+    private Sound explosionSound;
 
     public GameScreen(Game game) {
         super(game);
@@ -53,26 +59,24 @@ public class GameScreen extends Base2DScreen {
     @Override
     public void show() {
         super.show();
+        music = Gdx.audio.newMusic(Gdx.files.internal("sound/Doom4  - BFG Division (Simpsonill Remix).mp3"));
+        music.setLooping(true);
+        music.play();
         textureAtlas = new TextureAtlas("textures/mainAtlas.tpack");
-        bg = new Texture("textures/space5.png");
+        bg = new Texture("textures/space3.png");
         background = new Background(new TextureRegion(bg));
         star = new Star[STAR_COUNT];
         for (int i = 0; i < star.length; i++) {
             star[i] = new Star(textureAtlas);
         }
         bulletPool = new BulletPool();
-        mainShipBulletSound = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
-        enemyShipBulletSound = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
-        mainShip = new MainShip(textureAtlas, bulletPool, worldBounds, mainShipBulletSound);
-
-        enemyPool = new EnemyPool(bulletPool, mainShip, worldBounds, enemyShipBulletSound);
+        explosionSound = Gdx.audio.newSound(Gdx.files.internal("sound/explosion.wav"));
+        explosionPool = new ExplosionPool(textureAtlas, explosionSound);
+        mainShipShootSound = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
+        mainShip = new MainShip(textureAtlas, bulletPool, explosionPool, mainShipShootSound);
+        enemyShipShootSound = Gdx.audio.newSound(Gdx.files.internal("sound/bullet.wav"));
+        enemyPool = new EnemyPool(bulletPool, explosionPool, mainShip, worldBounds, enemyShipShootSound);
         enemiesEmitter = new EnemiesEmitter(worldBounds, enemyPool, textureAtlas);
-
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/Doom4  - BFG Division " +
-                "(Simpsonill Remix).mp3"));
-        backgroundMusic.setLooping(true);
- //        backgroundMusic.play();
-
     }
 
     @Override
@@ -87,24 +91,65 @@ public class GameScreen extends Base2DScreen {
         for (int i = 0; i < star.length; i++) {
             star[i].update(delta);
         }
-        mainShip.update(delta);
+        if (!mainShip.isDestroyed()) {
+            mainShip.update(delta);
+        }
         bulletPool.updateActiveSprites(delta);
         enemyPool.updateActiveSprites(delta);
+        explosionPool.updateActiveSprites(delta);
         enemiesEmitter.generate(delta);
-//        backgroundMusic.stop();
     }
 
     public void checkCollisions() {
+        List<Enemy> enemyList = enemyPool.getActiveObjects();
+        for (Enemy enemy : enemyList) {
+            if (enemy.isDestroyed()) {
+                continue;
+            }
+            float minDist = enemy.getHalfWidth() + mainShip.getHalfWidth();
+            if (enemy.pos.dst2(mainShip.pos) < minDist * minDist) {
+                enemy.setDestroyed(true);
+                enemy.boom();
+                mainShip.damage(mainShip.getHp());
+                return;
+            }
+        }
 
+        List<Bullet> bulletList = bulletPool.getActiveObjects();
+        for (Enemy enemy : enemyList) {
+            if (enemy.isDestroyed()) {
+                continue;
+            }
+            for (Bullet bullet : bulletList) {
+                if (bullet.getOwner() != mainShip || bullet.isDestroyed()) {
+                    continue;
+                }
+                if (enemy.isBulletCollision(bullet)) {
+                    enemy.damage(bullet.getDamage());
+                    bullet.setDestroyed(true);
+                }
+            }
+        }
+
+        for (Bullet bullet : bulletList) {
+            if (bullet.isDestroyed() || bullet.getOwner() == mainShip) {
+                continue;
+            }
+            if (mainShip.isBulletCollision(bullet)) {
+                bullet.setDestroyed(true);
+                mainShip.damage(bullet.getDamage());
+            }
+        }
     }
 
     public void deleteAllDestroyed() {
         bulletPool.freeAllDestroyedActiveSprites();
         enemyPool.freeAllDestroyedActiveSprites();
+        explosionPool.freeAllDestroyedActiveSprites();
     }
 
     public void draw() {
-        Gdx.gl.glClearColor(0, 0f, 0f, 1);
+        Gdx.gl.glClearColor(1, 0.3f, 0.6f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
@@ -112,9 +157,12 @@ public class GameScreen extends Base2DScreen {
         for (int i = 0; i < star.length; i++) {
             star[i].draw(batch);
         }
-        mainShip.draw(batch);
+        if (!mainShip.isDestroyed()) {
+            mainShip.draw(batch);
+        }
         bulletPool.drawActiveSprites(batch);
         enemyPool.drawActiveSprites(batch);
+        explosionPool.drawActiveSprites(batch);
         batch.end();
     }
 
@@ -134,9 +182,9 @@ public class GameScreen extends Base2DScreen {
         textureAtlas.dispose();
         bulletPool.dispose();
         enemyPool.dispose();
-        backgroundMusic.dispose();
-        mainShipBulletSound.dispose();
-        enemyShipBulletSound.dispose();
+        explosionPool.dispose();
+        music.dispose();
+        mainShipShootSound.dispose();
         super.dispose();
     }
 

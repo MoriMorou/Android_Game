@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import ru.mori.morou.Marh.Rect;
 import ru.mori.morou.base.Ship;
 import ru.mori.morou.pool.BulletPool;
+import ru.mori.morou.pool.ExplosionPool;
 
 
 /**
@@ -21,7 +22,6 @@ public class MainShip extends Ship {
     private static final int INVALID_POINTER = -1;
 
     private Vector2 v0 = new Vector2(0.5f, 0);
-    private Vector2 v = new Vector2();
 
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -31,20 +31,12 @@ public class MainShip extends Ship {
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
-    private BulletPool bulletPool;
-
-    private TextureAtlas atlas;
-
-    private Rect worldBounds;
-    private Sound sound;
-
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Rect worldBounds, Sound sound) {
-        super(atlas.findRegion("main_ship"), 1, 2, 2, worldBounds, sound);
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool, Sound sound) {
+        super(atlas.findRegion("main_ship"), 1, 2, 2, sound);
         setHeightProportion(0.15f);
         this.bulletPool = bulletPool;
-        this.atlas = atlas;
-        this.worldBounds = worldBounds;
-        this.reloadInternal = 0.1f;
+        this.explosionPool = explosionPool;
+        this.reloadInterval = 0.2f;
         this.bulletRegion = atlas.findRegion("bulletMainShip");
         this.bulletHeight = 0.01f;
         this.bulletV.set(0, 0.5f);
@@ -56,14 +48,11 @@ public class MainShip extends Ship {
     public void update(float delta) {
         super.update(delta);
         pos.mulAdd(v, delta);
-
         reloadTimer += delta;
-        // автоматизация выстрелов
-        if (reloadTimer >= reloadInternal) {
+        if (reloadTimer >= reloadInterval) {
             reloadTimer = 0f;
             shoot();
         }
-
         if (getRight() > worldBounds.getRight()) {
             setRight(worldBounds.getRight());
             stop();
@@ -84,7 +73,7 @@ public class MainShip extends Ship {
 
     @Override
     public void resize(Rect worldBounds) {
-        this.worldBounds = worldBounds;
+        super.resize(worldBounds);
         setBottom(worldBounds.getBottom() + 0.05f);
     }
 
@@ -211,16 +200,14 @@ public class MainShip extends Ship {
         v.set(v0).rotate(-90);
     }
 
-
-
     private void stop() {
         v.setZero();
     }
 
-    public void shoot() {
-        Bullet bullet = bulletPool.obtain();
-        bullet.set(this, atlas.findRegion("bulletMainShip"),pos, new Vector2(0, 0.5f), 0.01f, worldBounds, 1);
+    public boolean isBulletCollision(Rect bullet) {
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > pos.y
+                || bullet.getTop() < getBottom());
     }
-
-
 }

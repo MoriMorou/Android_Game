@@ -45,8 +45,6 @@ public class MenuScreen extends Base2DScreen{
     private ButtonExit buttonExit;
     private ButtonStart buttonStart;
 
-    private Music backgroundMusic;
-
     public MenuScreen(Game game) {
         super(game);
     }
