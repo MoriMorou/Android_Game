@@ -16,6 +16,7 @@ import ru.mori.morou.sprite.ButtonExit;
 import ru.mori.morou.sprite.ButtonStart;
 import ru.mori.morou.sprite.Star;
 import ru.mori.morou.sprite.Background;
+import ru.mori.morou.sprite.Text;
 
 /**
  * add() - Сложение двух векторов.
@@ -34,6 +35,7 @@ import ru.mori.morou.sprite.Background;
 public class MenuScreen extends Base2DScreen{
 
     private static final int STAR_COUNT = 256;
+    private static final float HEIGHT_START_GAME_TEXT = 0.12f;
 
     private Texture bg;
     private TextureAtlas textureAtlas;
@@ -45,6 +47,9 @@ public class MenuScreen extends Base2DScreen{
     private ButtonExit buttonExit;
     private ButtonStart buttonStart;
 
+    private TextureAtlas textAtlas;
+    private Text startGame;
+
     public MenuScreen(Game game) {
         super(game);
     }
@@ -55,14 +60,15 @@ public class MenuScreen extends Base2DScreen{
         super.show();
         textureAtlas = new TextureAtlas("textures/menuNew");
         bg = new Texture("textures/space.png");
+        textAtlas = new TextureAtlas("textures/text.atlas");
         background = new Background(new TextureRegion(bg));
         star = new Star[STAR_COUNT];
         for (int i = 0; i < star.length; i++) {
             star[i] = new Star(textureAtlas);
         }
+        startGame = new Text(textAtlas.findRegion("StarGame"), HEIGHT_START_GAME_TEXT);
         buttonExit = new ButtonExit(textureAtlas);
         buttonStart = new ButtonStart(textureAtlas, game);
-
     }
 
     @Override
@@ -87,6 +93,7 @@ public class MenuScreen extends Base2DScreen{
         for (int i = 0; i < star.length; i++) {
             star[i].draw(batch);
         }
+        startGame.draw(batch);
         buttonExit.draw(batch);
         buttonStart.draw(batch);
         batch.end();
@@ -107,6 +114,7 @@ public class MenuScreen extends Base2DScreen{
     public void dispose() {
         textureAtlas.dispose();
         bg.dispose();
+        textAtlas.dispose();
         super.dispose();
     }
 

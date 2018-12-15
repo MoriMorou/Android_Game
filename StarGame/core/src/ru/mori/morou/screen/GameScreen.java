@@ -23,6 +23,7 @@ import ru.mori.morou.sprite.Bullet;
 import ru.mori.morou.sprite.Enemy;
 import ru.mori.morou.sprite.MainShip;
 import ru.mori.morou.sprite.Star;
+import ru.mori.morou.sprite.Text;
 import ru.mori.morou.utils.EnemiesEmitter;
 
 /**
@@ -31,9 +32,13 @@ import ru.mori.morou.utils.EnemiesEmitter;
 public class GameScreen extends Base2DScreen {
 
     private static final int STAR_COUNT = 64;
+    private static final float HEIGHT_GAME_OVER_TEXT = 0.12f;
 
     private Texture bg;
     private TextureAtlas textureAtlas;
+
+    private TextureAtlas textAtlas;
+    private Text gameOver;
 
     private Background background;
 
@@ -63,6 +68,8 @@ public class GameScreen extends Base2DScreen {
         music.setLooping(true);
         music.play();
         textureAtlas = new TextureAtlas("textures/mainAtlas.tpack");
+        textAtlas = new TextureAtlas("textures/text.atlas");
+        gameOver = new Text(textAtlas.findRegion("GameOver"), HEIGHT_GAME_OVER_TEXT);
         bg = new Texture("textures/space3.png");
         background = new Background(new TextureRegion(bg));
         star = new Star[STAR_COUNT];
@@ -93,11 +100,14 @@ public class GameScreen extends Base2DScreen {
         }
         if (!mainShip.isDestroyed()) {
             mainShip.update(delta);
+            bulletPool.updateActiveSprites(delta);
+            enemyPool.updateActiveSprites(delta);
+            explosionPool.updateActiveSprites(delta);
+            enemiesEmitter.generate(delta);
+        } else {
+            gameOver.update(delta);
+            music.stop();
         }
-        bulletPool.updateActiveSprites(delta);
-        enemyPool.updateActiveSprites(delta);
-        explosionPool.updateActiveSprites(delta);
-        enemiesEmitter.generate(delta);
     }
 
     public void checkCollisions() {
@@ -159,10 +169,12 @@ public class GameScreen extends Base2DScreen {
         }
         if (!mainShip.isDestroyed()) {
             mainShip.draw(batch);
+            bulletPool.drawActiveSprites(batch);
+            enemyPool.drawActiveSprites(batch);
+            explosionPool.drawActiveSprites(batch);
+        } else {
+            gameOver.draw(batch);
         }
-        bulletPool.drawActiveSprites(batch);
-        enemyPool.drawActiveSprites(batch);
-        explosionPool.drawActiveSprites(batch);
         batch.end();
     }
 
