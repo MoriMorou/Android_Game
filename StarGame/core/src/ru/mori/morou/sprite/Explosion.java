@@ -9,6 +9,7 @@ import ru.mori.morou.base.Sprite;
 
 public class Explosion extends Sprite {
 
+
     private float animateInterval = 0.017f;
     private float animateTimer;
 
@@ -36,5 +37,4 @@ public class Explosion extends Sprite {
             }
         }
     }
-
 }

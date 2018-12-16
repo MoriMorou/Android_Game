@@ -3,7 +3,6 @@ package ru.mori.morou.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -12,14 +11,13 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.mori.morou.Marh.Rect;
 import ru.mori.morou.base.Base2DScreen;
-import ru.mori.morou.sprite.ButtonExit;
-import ru.mori.morou.sprite.ButtonStart;
-import ru.mori.morou.sprite.Star;
-import ru.mori.morou.sprite.Background;
-import ru.mori.morou.sprite.Text;
+import ru.mori.morou.sprite.BackgroundMenu;
+import ru.mori.morou.sprite.buttons.ButtonExit;
+import ru.mori.morou.sprite.buttons.ButtonStart;
+import ru.mori.morou.sprite.space_bodies.Star;
 
 /**
- * add() - Сложение двух векторов.
+ * @method add() - Сложение двух векторов.
  * sub() - Вычитание векторов.
  * scl() - Умножение вектора на скаляр.
  * len() - Получение длины вектора.
@@ -30,25 +28,21 @@ import ru.mori.morou.sprite.Text;
  * This class is responsible for the gameplay
  * Method moving - changing of a Spacecraft position on the map
  *
+ * @param
+ *
+ *
  */
-
 public class MenuScreen extends Base2DScreen{
 
     private static final int STAR_COUNT = 256;
-    private static final float HEIGHT_START_GAME_TEXT = 0.12f;
-
-    private Texture bg;
-    private TextureAtlas textureAtlas;
-
-    private Background background;
-
     private Star[] star;
+
+    private BackgroundMenu backgroundMenu;
+    private Texture bg;
+    private TextureAtlas menuAtlas;
 
     private ButtonExit buttonExit;
     private ButtonStart buttonStart;
-
-    private TextureAtlas textAtlas;
-    private Text startGame;
 
     public MenuScreen(Game game) {
         super(game);
@@ -58,17 +52,15 @@ public class MenuScreen extends Base2DScreen{
     @Override
     public void show() {
         super.show();
-        textureAtlas = new TextureAtlas("textures/menuNew");
-        bg = new Texture("textures/space.png");
-        textAtlas = new TextureAtlas("textures/text.atlas");
-        background = new Background(new TextureRegion(bg));
+        menuAtlas = new TextureAtlas("menu/menu");
+        bg = new Texture("menu/space5.png");
+        backgroundMenu = new BackgroundMenu(new TextureRegion(bg));
         star = new Star[STAR_COUNT];
         for (int i = 0; i < star.length; i++) {
-            star[i] = new Star(textureAtlas);
+            star[i] = new Star(menuAtlas);
         }
-        startGame = new Text(textAtlas.findRegion("StarGame"), HEIGHT_START_GAME_TEXT);
-        buttonExit = new ButtonExit(textureAtlas);
-        buttonStart = new ButtonStart(textureAtlas, game);
+        buttonExit = new ButtonExit(menuAtlas);
+        buttonStart = new ButtonStart(menuAtlas, game);
     }
 
     @Override
@@ -89,11 +81,10 @@ public class MenuScreen extends Base2DScreen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        background.draw(batch);
+        backgroundMenu.draw(batch);
         for (int i = 0; i < star.length; i++) {
             star[i].draw(batch);
         }
-        startGame.draw(batch);
         buttonExit.draw(batch);
         buttonStart.draw(batch);
         batch.end();
@@ -102,7 +93,7 @@ public class MenuScreen extends Base2DScreen{
     @Override
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
-        background.resize(worldBounds);
+        backgroundMenu.resize(worldBounds);
         for (int i = 0; i < star.length; i++) {
             star[i].resize(worldBounds);
         }
@@ -112,9 +103,8 @@ public class MenuScreen extends Base2DScreen{
 
     @Override
     public void dispose() {
-        textureAtlas.dispose();
+        menuAtlas.dispose();
         bg.dispose();
-        textAtlas.dispose();
         super.dispose();
     }
 

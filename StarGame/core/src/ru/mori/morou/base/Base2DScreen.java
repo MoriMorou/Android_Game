@@ -176,3 +176,4 @@ public class Base2DScreen implements Screen, InputProcessor {
         return false;
     }
 }
+

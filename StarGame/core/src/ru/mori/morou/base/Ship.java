@@ -16,29 +16,37 @@ import ru.mori.morou.sprite.Explosion;
 
 public class Ship extends Sprite {
 
+    private float damageAnimateInterval = 0.1f;
+    private float damageAnimateTimer = damageAnimateInterval;
+
     protected Vector2 v = new Vector2();
+    protected Rect worldBounds;
 
     protected ExplosionPool explosionPool;
     protected BulletPool bulletPool;
     protected TextureRegion bulletRegion;
+
     protected Vector2 bulletV = new Vector2();
     protected float bulletHeight;
     protected int bulletDamage;
-    protected int hp;
 
     protected float reloadInterval;
     protected float reloadTimer;
 
-    protected Rect worldBounds;
-
     protected Sound shootSound;
 
-    private float damageAnimateInterval = 0.1f;
-    private float damageAnimateTimer = damageAnimateInterval;
+    protected int hp;
 
     public Ship(TextureRegion region, int rows, int cols, int frames, Sound shootSound) {
         super(region, rows, cols, frames);
         this.shootSound = shootSound;
+    }
+
+    public Ship(BulletPool bulletPool, Rect worldBounds, ExplosionPool explosionPool, Sound sound) {
+        this.bulletPool = bulletPool;
+        this.worldBounds = worldBounds;
+        this.explosionPool = explosionPool;
+        this.shootSound = sound;
     }
 
     public Ship() {
@@ -50,7 +58,11 @@ public class Ship extends Sprite {
         super.update(delta);
         damageAnimateTimer += delta;
         if (damageAnimateTimer >= damageAnimateInterval) {
-            frame = 0;
+            if (frame < regions.length - 2) {
+                frame++;
+            } else {
+                frame = 0;
+            }
         }
     }
 
@@ -62,7 +74,7 @@ public class Ship extends Sprite {
 
     public void shoot() {
         Bullet bullet = bulletPool.obtain();
-        bullet.set(this, bulletRegion ,pos, bulletV, bulletHeight, worldBounds, bulletDamage);
+        bullet.set(this, bulletRegion , pos, bulletV, bulletHeight, worldBounds, bulletDamage);
         shootSound.play();
     }
 
@@ -78,7 +90,7 @@ public class Ship extends Sprite {
             boom();
         }
         damageAnimateTimer = 0f;
-        frame = 1;
+        frame = regions.length - 1;
     }
 
     public int getHp() {

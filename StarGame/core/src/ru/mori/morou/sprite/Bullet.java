@@ -9,11 +9,8 @@ import ru.mori.morou.base.Sprite;
 public class Bullet extends Sprite {
 
     private Rect worldBounds;
-
     private Vector2 v = new Vector2();
-
     private int damage;
-
     private Object owner;
 
     public Bullet() {
@@ -63,4 +60,3 @@ public class Bullet extends Sprite {
         this.owner = owner;
     }
 }
-

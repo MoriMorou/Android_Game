@@ -1,0 +1,48 @@
+
+enemy0.png
+size: 4096,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bulletEnemy
+  rotate: false
+  xy: 27, 27
+  size: 23, 25
+  orig: 23, 25
+  offset: 0, 0
+  index: -1
+bullet_lite
+  rotate: false
+  xy: 3092, 451
+  size: 23, 50
+  orig: 23, 50
+  offset: 0, 0
+  index: -1
+bullet_lite2
+  rotate: false
+  xy: 2, 2
+  size: 23, 50
+  orig: 23, 50
+  offset: 0, 0
+  index: -1
+enemy0
+  rotate: false
+  xy: 2, 54
+  size: 3088, 447
+  orig: 3088, 447
+  offset: 0, 0
+  index: -1
+laserGreen01
+  rotate: false
+  xy: 3092, 395
+  size: 9, 54
+  orig: 9, 54
+  offset: 0, 0
+  index: -1
+laserGreen02
+  rotate: false
+  xy: 3092, 339
+  size: 9, 54
+  orig: 9, 54
+  offset: 0, 0
+  index: -1

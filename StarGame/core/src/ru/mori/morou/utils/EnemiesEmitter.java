@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Random;
-
 import ru.mori.morou.Marh.Rect;
 import ru.mori.morou.Marh.Rnd;
 import ru.mori.morou.pool.EnemyPool;
@@ -13,21 +11,21 @@ import ru.mori.morou.sprite.Enemy;
 
 public class EnemiesEmitter {
 
-    private static final float ENEMY_SMALL_HEIGHT = 0.1f;
+    private static final float ENEMY_SMALL_HEIGHT = 0.07f;
     private static final float ENEMY_SMALL_BULLET_HEIGHT = 0.01f;
     private static final float ENEMY_SMALL_BULLET_VY = -0.3f;
     private static final int ENEMY_SMALL_BULLET_DAMAGE = 1;
     private static final float ENEMY_SMALL_RELOAD_INTERVAL = 3f;
     private static final int ENEMY_SMALL_HP = 1;
 
-    private static final float ENEMY_MEDIUM_HEIGHT = 0.1f;
+    private static final float ENEMY_MEDIUM_HEIGHT = 0.3f;
     private static final float ENEMY_MEDIUM_BULLET_HEIGHT = 0.02f;
     private static final float ENEMY_MEDIUM_BULLET_VY = -0.25f;
     private static final int ENEMY_MEDIUM_BULLET_DAMAGE = 5;
     private static final float ENEMY_MEDIUM_RELOAD_INTERVAL = 4f;
     private static final int ENEMY_MEDIUM_HP = 5;
 
-    private static final float ENEMY_BIG_HEIGHT = 0.2f;
+    private static final float ENEMY_BIG_HEIGHT = 0.25f;
     private static final float ENEMY_BIG_BULLET_HEIGHT = 0.04f;
     private static final float ENEMY_BIG_BULLET_VY = -0.25f;
     private static final int ENEMY_BIG_BULLET_DAMAGE = 10;
@@ -51,22 +49,26 @@ public class EnemiesEmitter {
 
     private EnemyPool enemyPool;
 
+    private int level;
+
     public EnemiesEmitter(Rect worldBounds, EnemyPool enemyPool, TextureAtlas atlas) {
         this.worldBounds = worldBounds;
         this.enemyPool = enemyPool;
-        TextureRegion textureRegion0 = atlas.findRegion("enemy0");
-        this.enemySmallRegion = Regions.split(textureRegion0, 1, 2, 2);
 
-        TextureRegion textureRegion1 = atlas.findRegion("enemy1");
-        this.enemyMediumRegion = Regions.split(textureRegion1, 1, 2, 2);
+        TextureRegion textureRegion0 = atlas.findRegion("enemy1");
+        this.enemySmallRegion = Regions.split(textureRegion0, 1, 6, 6);
 
-        TextureRegion textureRegion2 = atlas.findRegion("enemy2");
-        this.enemyBigRegion = Regions.split(textureRegion2, 1, 2, 2);
+        TextureRegion textureRegion1 = atlas.findRegion("enemy2");
+        this.enemyMediumRegion = Regions.split(textureRegion1, 1, 6, 6);
+
+        TextureRegion textureRegion2 = atlas.findRegion("enemy3");
+        this.enemyBigRegion = Regions.split(textureRegion2, 1, 5, 5);
 
         this.bulletRegion = atlas.findRegion("bulletEnemy");
     }
 
-    public void generate(float delta) {
+    public void generate(float delta, int frags) {
+        level = frags / 20 + 1;
         generateTimer += delta;
         if (generateTimer >= generateInterval) {
             generateTimer = 0f;
@@ -80,7 +82,7 @@ public class EnemiesEmitter {
                         bulletRegion,
                         ENEMY_SMALL_BULLET_HEIGHT,
                         ENEMY_SMALL_BULLET_VY,
-                        ENEMY_SMALL_BULLET_DAMAGE,
+                        ENEMY_SMALL_BULLET_DAMAGE * level,
                         ENEMY_SMALL_RELOAD_INTERVAL,
                         ENEMY_SMALL_HEIGHT,
                         ENEMY_SMALL_HP
@@ -92,7 +94,7 @@ public class EnemiesEmitter {
                         bulletRegion,
                         ENEMY_MEDIUM_BULLET_HEIGHT,
                         ENEMY_MEDIUM_BULLET_VY,
-                        ENEMY_MEDIUM_BULLET_DAMAGE,
+                        ENEMY_MEDIUM_BULLET_DAMAGE * level,
                         ENEMY_MEDIUM_RELOAD_INTERVAL,
                         ENEMY_MEDIUM_HEIGHT,
                         ENEMY_MEDIUM_HP
@@ -104,7 +106,7 @@ public class EnemiesEmitter {
                         bulletRegion,
                         ENEMY_BIG_BULLET_HEIGHT,
                         ENEMY_BIG_BULLET_VY,
-                        ENEMY_BIG_BULLET_DAMAGE,
+                        ENEMY_BIG_BULLET_DAMAGE * level,
                         ENEMY_BIG_RELOAD_INTERVAL,
                         ENEMY_BIG_HEIGHT,
                         ENEMY_BIG_HP
@@ -113,5 +115,13 @@ public class EnemiesEmitter {
             enemy.pos.x = Rnd.nextFloat(worldBounds.getLeft() + enemy.getHalfWidth(), worldBounds.getRight() - enemy.getHalfWidth());
             enemy.setBottom(worldBounds.getTop());
         }
+    }
+
+    public void setToNewGame() {
+        level = 1;
+    }
+
+    public int getLevel() {
+        return level;
     }
 }

@@ -14,19 +14,19 @@ public class EnemyPool extends SpritesPool<Enemy> {
     private ExplosionPool explosionPool;
     private MainShip mainShip;
     private Rect worldBounds;
-    private Sound sound;
+    private Sound shootSound;
 
     public EnemyPool(BulletPool bulletPool, ExplosionPool explosionPool, MainShip mainShip,
-                     Rect worldBounds, Sound sound) {
+                     Rect worldBounds, Sound shootSound) {
         this.bulletPool = bulletPool;
-        this.mainShip = mainShip;
         this.explosionPool = explosionPool;
+        this.mainShip = mainShip;
         this.worldBounds = worldBounds;
-        this.sound = sound;
+        this.shootSound = shootSound;
     }
 
     @Override
     protected Enemy newObject() {
-        return new Enemy(bulletPool, explosionPool, mainShip, worldBounds, sound);
+        return new Enemy(bulletPool, explosionPool, mainShip, worldBounds, shootSound);
     }
 }

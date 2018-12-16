@@ -1,0 +1,54 @@
+
+mainShipAtlas.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+explosion
+  rotate: false
+  xy: 1, 633
+  size: 900, 900
+  orig: 900, 900
+  offset: 0, 0
+  index: -1
+main_ship
+  rotate: false
+  xy: 903, 1169
+  size: 968, 364
+  orig: 968, 364
+  offset: 0, 0
+  index: -1
+enemy0
+  rotate: false
+  xy: 903, 812
+  size: 928, 355
+  orig: 928, 355
+  offset: 0, 0
+  index: -1
+enemy2
+  rotate: false
+  xy: 1, 304
+  size: 1384, 327
+  orig: 1384, 327
+  offset: 0, 0
+  index: -1
+enemy1
+  rotate: false
+  xy: 1, 1
+  size: 1200, 301
+  orig: 1200, 301
+  offset: 0, 0
+  index: -1
+bulletEnemy
+  rotate: false
+  xy: 1873, 1508
+  size: 23, 25
+  orig: 23, 25
+  offset: 0, 0
+  index: -1
+bulletMainShip
+  rotate: false
+  xy: 1833, 1150
+  size: 17, 17
+  orig: 17, 17
+  offset: 0, 0
+  index: -1

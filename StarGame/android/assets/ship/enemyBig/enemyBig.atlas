@@ -1,0 +1,41 @@
+
+enemyBig.png
+size: 2048,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+enemyBig-1
+  rotate: false
+  xy: 401, 7
+  size: 390, 835
+  orig: 390, 835
+  offset: 0, 0
+  index: -1
+enemyBig-2
+  rotate: false
+  xy: 793, 7
+  size: 388, 835
+  orig: 388, 835
+  offset: 0, 0
+  index: -1
+enemyBig-3
+  rotate: false
+  xy: 1183, 7
+  size: 388, 835
+  orig: 388, 835
+  offset: 0, 0
+  index: -1
+enemyBig-4
+  rotate: false
+  xy: 1573, 7
+  size: 388, 835
+  orig: 388, 835
+  offset: 0, 0
+  index: -1
+enemyBig-5
+  rotate: false
+  xy: 2, 2
+  size: 397, 840
+  orig: 397, 840
+  offset: 0, 0
+  index: -1
