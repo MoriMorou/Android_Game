@@ -22,7 +22,7 @@ public class BackgroundGame extends Sprite {
 
     @Override
     public void draw(SpriteBatch batch) {
-        this.y -= 0.0003f;
+        this.y -= 0.003f;
         batch.draw(
                 regions[frame], // текущий регион
                 getLeft(), this.y, // точка отрисовки
@@ -35,7 +35,7 @@ public class BackgroundGame extends Sprite {
 
     @Override
     public void resize(Rect worldBounds) {
-        setWithProportion(worldBounds.getWidth());
+        setWidthProportion(worldBounds.getWidth());
         pos.set(worldBounds.pos);
     }
 }

@@ -1,41 +1,48 @@
 
-enemyBig.png
+enemybig.png
 size: 2048,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-enemyBig-1
+enemyCruiser
   rotate: false
-  xy: 401, 7
-  size: 390, 835
-  orig: 390, 835
+  xy: 566, 2
+  size: 280, 697
+  orig: 280, 697
   offset: 0, 0
   index: -1
-enemyBig-2
+enemyCruiser2
   rotate: false
-  xy: 793, 7
-  size: 388, 835
-  orig: 388, 835
+  xy: 848, 2
+  size: 280, 697
+  orig: 280, 697
   offset: 0, 0
   index: -1
-enemyBig-3
+enemyCruiser3
   rotate: false
-  xy: 1183, 7
-  size: 388, 835
-  orig: 388, 835
+  xy: 1130, 2
+  size: 280, 697
+  orig: 280, 697
   offset: 0, 0
   index: -1
-enemyBig-4
+enemyCruiser4
   rotate: false
-  xy: 1573, 7
-  size: 388, 835
-  orig: 388, 835
+  xy: 1412, 2
+  size: 280, 697
+  orig: 280, 697
   offset: 0, 0
   index: -1
-enemyBig-5
+enemyCruiser5
   rotate: false
   xy: 2, 2
-  size: 397, 840
-  orig: 397, 840
+  size: 280, 697
+  orig: 280, 697
+  offset: 0, 0
+  index: -1
+enemyCruiser6
+  rotate: false
+  xy: 284, 2
+  size: 280, 697
+  orig: 280, 697
   offset: 0, 0
   index: -1

@@ -3,6 +3,7 @@ package ru.mori.morou.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -17,7 +18,7 @@ import ru.mori.morou.sprite.buttons.ButtonStart;
 import ru.mori.morou.sprite.space_bodies.Star;
 
 /**
- * @method add() - Сложение двух векторов.
+ * add() - Сложение двух векторов.
  * sub() - Вычитание векторов.
  * scl() - Умножение вектора на скаляр.
  * len() - Получение длины вектора.
@@ -28,9 +29,6 @@ import ru.mori.morou.sprite.space_bodies.Star;
  * This class is responsible for the gameplay
  * Method moving - changing of a Spacecraft position on the map
  *
- * @param
- *
- *
  */
 public class MenuScreen extends Base2DScreen{
 
@@ -40,6 +38,8 @@ public class MenuScreen extends Base2DScreen{
     private BackgroundMenu backgroundMenu;
     private Texture bg;
     private TextureAtlas menuAtlas;
+
+    private Music music;
 
     private ButtonExit buttonExit;
     private ButtonStart buttonStart;
@@ -52,6 +52,9 @@ public class MenuScreen extends Base2DScreen{
     @Override
     public void show() {
         super.show();
+        music = Gdx.audio.newMusic(Gdx.files.internal("sound/League of Legends - Overdrive.mp3"));
+        music.setLooping(true);
+        music.play();
         menuAtlas = new TextureAtlas("menu/menu");
         bg = new Texture("menu/space5.png");
         backgroundMenu = new BackgroundMenu(new TextureRegion(bg));
@@ -63,6 +66,10 @@ public class MenuScreen extends Base2DScreen{
         buttonStart = new ButtonStart(menuAtlas, game);
     }
 
+    /**
+     * @method render выполняется 60 раз в секунду и отвечает за отрисовку игры
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         super.render(delta);
@@ -75,6 +82,10 @@ public class MenuScreen extends Base2DScreen{
             star[i].update(delta);
         }
     }
+
+    /**
+     * «SpriteBatch» получает текстуру и координаты каждого прямоугольника, куда будет выведена эта текстура.
+     */
 
     public void draw() {
         Gdx.gl.glClearColor(0, 0f, 0f, 1);
@@ -101,10 +112,14 @@ public class MenuScreen extends Base2DScreen{
         buttonStart.resize(worldBounds);
     }
 
+    /**
+     * @method dispose() отвечает за освобождение ресурсов после того, как они перестали быть нужны.
+     */
     @Override
     public void dispose() {
         menuAtlas.dispose();
         bg.dispose();
+        music.stop();
         super.dispose();
     }
 

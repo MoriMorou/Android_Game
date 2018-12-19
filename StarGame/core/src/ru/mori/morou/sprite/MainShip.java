@@ -57,10 +57,10 @@ public class MainShip extends Ship {
         super.update(delta);
         pos.mulAdd(v, delta);
         reloadTimer += delta;
-        if (reloadTimer >= reloadInterval) {
-            reloadTimer = 0f;
-            shoot();
-        }
+//        if (reloadTimer >= reloadInterval) {
+//            reloadTimer = 0f;
+//            shoot();
+//        }
         if (getRight() > worldBounds.getRight()) {
             setRight(worldBounds.getRight());
             stop();
@@ -210,6 +210,17 @@ public class MainShip extends Ship {
 
     private void stop() {
         v.setZero();
+    }
+
+    @Override
+    protected void shoot() {
+        if(clearVisionForShoot) {
+            super.shoot();
+        }
+    }
+
+    public void setClearVisionForShoot(boolean clearVisionForShoot) {
+        this.clearVisionForShoot = clearVisionForShoot;
     }
 
     public boolean isBulletCollision(Rect bullet) {

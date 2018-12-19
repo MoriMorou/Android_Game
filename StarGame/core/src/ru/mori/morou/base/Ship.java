@@ -35,6 +35,8 @@ public class Ship extends Sprite {
 
     protected Sound shootSound;
 
+    protected boolean clearVisionForShoot = true;
+
     protected int hp;
 
     public Ship(TextureRegion region, int rows, int cols, int frames, Sound shootSound) {
@@ -72,7 +74,7 @@ public class Ship extends Sprite {
         this.worldBounds = worldBounds;
     }
 
-    public void shoot() {
+    protected void shoot() {
         Bullet bullet = bulletPool.obtain();
         bullet.set(this, bulletRegion , pos, bulletV, bulletHeight, worldBounds, bulletDamage);
         shootSound.play();

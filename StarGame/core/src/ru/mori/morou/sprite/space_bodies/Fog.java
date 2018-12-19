@@ -1,9 +1,11 @@
 package ru.mori.morou.sprite.space_bodies;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.mori.morou.Marh.Rect;
+import ru.mori.morou.Marh.Rnd;
 import ru.mori.morou.base.Sprite;
 import ru.mori.morou.sprite.MainShip;
 
@@ -46,14 +48,14 @@ public class Fog extends Sprite {
         this.v = v;
     }
 
-//    public void isFogWithShipCollision(MainShip ship) {
-//        if (!(ship.getRight() < getLeft() + getHalfWidth()
-//                || ship.getLeft() > getRight() - getHalfWidth()
-//                || ship.getBottom() > getTop() - (getHalfHeight() + getHalfHeight()/4)
-//                || ship.getTop() < getBottom() + (getHalfHeight() + getHalfHeight()/4))) {
-//            ship.setClearVisionForShoot(false);
-//        } else {
-//            ship.setClearVisionForShoot(true);
-//        }
-//    }
+    public void isFogWithShipCollision(MainShip mainShip) {
+        if (!(mainShip.getRight() < getLeft() + getHalfWidth()
+                || mainShip.getLeft() > getRight() - getHalfWidth()
+                || mainShip.getBottom() > getTop() - (getHalfHeight() + getHalfHeight()/4)
+                || mainShip.getTop() < getBottom() + (getHalfHeight() + getHalfHeight()/4))) {
+            mainShip.setClearVisionForShoot(false);
+        } else {
+            mainShip.setClearVisionForShoot(true);
+        }
+    }
 }

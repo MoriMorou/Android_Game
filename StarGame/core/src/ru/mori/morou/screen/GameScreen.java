@@ -20,15 +20,18 @@ import ru.mori.morou.base.Font;
 import ru.mori.morou.pool.BulletPool;
 import ru.mori.morou.pool.EnemyPool;
 import ru.mori.morou.pool.ExplosionPool;
+import ru.mori.morou.pool.FogPool;
 import ru.mori.morou.sprite.BackgroundGame;
 import ru.mori.morou.sprite.BackgroundMenu;
 import ru.mori.morou.sprite.Bullet;
 import ru.mori.morou.sprite.Enemy;
 import ru.mori.morou.sprite.GameOver;
 import ru.mori.morou.sprite.MainShip;
+import ru.mori.morou.sprite.space_bodies.Fog;
 import ru.mori.morou.sprite.space_bodies.Star;
 import ru.mori.morou.sprite.StartNewGame;
 import ru.mori.morou.utils.EnemiesEmitter;
+import ru.mori.morou.utils.FogEmitter;
 
 /**
  * @method checkCollisions - проверка столкновений
@@ -46,6 +49,7 @@ public class GameScreen extends Base2DScreen {
     private TextureAtlas textureAtlas;
     private TextureAtlas enemiesAtlas;
     private TextureAtlas heroAtlas;
+    private TextureAtlas fogGreenAtlas;
 
     private BackgroundGame backgroundGame;
 
@@ -56,8 +60,10 @@ public class GameScreen extends Base2DScreen {
     private BulletPool bulletPool;
     private EnemyPool enemyPool;
     private ExplosionPool explosionPool;
+    private FogPool fogPool;
 
     private EnemiesEmitter enemiesEmitter;
+    private FogEmitter fogEmitter;
 
     private Music music;
     private Sound mainShipShootSound;
@@ -86,24 +92,27 @@ public class GameScreen extends Base2DScreen {
     @Override
     public void show() {
         super.show();
-        music = Gdx.audio.newMusic(Gdx.files.internal("sound/Doom4  - BFG Division (Simpsonill Remix).mp3"));
-        music.setLooping(true);
-        music.play();
-        textureAtlas = new TextureAtlas("textures/mainAtlas.tpack");
-        heroAtlas = new TextureAtlas("ship/mainship/hero.tpack");
-        enemiesAtlas = new TextureAtlas("textures/enemies.atlas");
         bg = new Texture("textures/bg_level_2.png");
         backgroundGame = new BackgroundGame(new TextureRegion(bg), -0.5f);
+        heroAtlas = new TextureAtlas("ship/mainship/hero.tpack");
+        enemiesAtlas = new TextureAtlas("ship/enemies.atlas");
+        textureAtlas = new TextureAtlas("textures/mainAtlas.tpack");
+        fogGreenAtlas = new TextureAtlas("fog/fogGreenAtlas.pack");
         star = new Star[STAR_COUNT];
         for (int i = 0; i < star.length; i++) {
             star[i] = new Star(textureAtlas);
         }
         bulletPool = new BulletPool();
+        fogPool = new FogPool(fogGreenAtlas, worldBounds);
+        fogEmitter = new FogEmitter(fogPool, worldBounds);
+        music = Gdx.audio.newMusic(Gdx.files.internal("sound/League of Legends - V 3 (Кассадин).mp3"));
+        music.setLooping(true);
+        music.play();
         explosionSound = Gdx.audio.newSound(Gdx.files.internal("sound/explosion.wav"));
         explosionPool = new ExplosionPool(textureAtlas, explosionSound);
         mainShipShootSound = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
         mainShip = new MainShip(heroAtlas, bulletPool, explosionPool, worldBounds, mainShipShootSound);
-        enemyShipShootSound = Gdx.audio.newSound(Gdx.files.internal("sound/bullet.wav"));
+        enemyShipShootSound = Gdx.audio.newSound(Gdx.files.internal("sound/shot.wav"));
         enemyPool = new EnemyPool(bulletPool, explosionPool, mainShip, worldBounds, enemyShipShootSound);
         enemiesEmitter = new EnemiesEmitter(worldBounds, enemyPool, enemiesAtlas);
         gameOver = new GameOver(textureAtlas);
@@ -136,6 +145,7 @@ public class GameScreen extends Base2DScreen {
                 bulletPool.updateActiveSprites(delta);
                 enemyPool.updateActiveSprites(delta);
                 enemiesEmitter.generate(delta, frags);
+                fogEmitter.generateFog(delta);
                 break;
             case GAME_OVER:
                 break;
@@ -191,12 +201,20 @@ public class GameScreen extends Base2DScreen {
                 }
             }
         }
+        List<Fog> fogList = fogPool.getActiveObjects();
+        for (Fog fog : fogList) {
+            if (fog.isDestroyed()) {
+                continue;
+            }
+            fog.isFogWithShipCollision(mainShip);
+        }
     }
 
     public void deleteAllDestroyed() {
         bulletPool.freeAllDestroyedActiveSprites();
         enemyPool.freeAllDestroyedActiveSprites();
         explosionPool.freeAllDestroyedActiveSprites();
+        fogPool.freeAllDestroyedActiveSprites();
     }
 
     public void draw() {
@@ -216,6 +234,7 @@ public class GameScreen extends Base2DScreen {
                 }
                 bulletPool.drawActiveSprites(batch);
                 enemyPool.drawActiveSprites(batch);
+                fogPool.drawActiveSprites(batch);
                 break;
             case GAME_OVER:
                 gameOver.draw(batch);
@@ -248,11 +267,12 @@ public class GameScreen extends Base2DScreen {
     @Override
     public void dispose() {
         bg.dispose();
-        textureAtlas.dispose();
         heroAtlas.dispose();
+        textureAtlas.dispose();
         enemiesAtlas.dispose();
         bulletPool.dispose();
         enemyPool.dispose();
+        fogPool.dispose();
         explosionPool.dispose();
         music.dispose();
         mainShipShootSound.dispose();
@@ -313,5 +333,6 @@ public class GameScreen extends Base2DScreen {
         bulletPool.freeAllActiveObjects();
         enemyPool.freeAllActiveObjects();
         explosionPool.freeAllActiveObjects();
+        fogPool.freeAllActiveObjects();
     }
 }

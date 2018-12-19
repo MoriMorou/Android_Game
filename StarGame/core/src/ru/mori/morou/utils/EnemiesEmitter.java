@@ -62,7 +62,7 @@ public class EnemiesEmitter {
         this.enemyMediumRegion = Regions.split(textureRegion1, 1, 6, 6);
 
         TextureRegion textureRegion2 = atlas.findRegion("enemy3");
-        this.enemyBigRegion = Regions.split(textureRegion2, 1, 5, 5);
+        this.enemyBigRegion = Regions.split(textureRegion2, 1, 6, 6);
 
         this.bulletRegion = atlas.findRegion("bulletEnemy");
     }

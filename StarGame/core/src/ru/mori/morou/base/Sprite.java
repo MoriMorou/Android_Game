@@ -27,6 +27,10 @@ public class Sprite extends Rect {
         regions = Regions.split(region, rows, cols, frames);
     }
 
+    /**
+     * «SpriteBatch» получает текстуру и координаты каждого прямоугольника, куда будет выведена эта текстура.
+     * @param batch
+     */
     public void draw(SpriteBatch batch) {
         batch.draw(
                 regions[frame], //текущий регион
@@ -38,16 +42,16 @@ public class Sprite extends Rect {
         );
     }
 
-    public void setHeightProportion(float height) {
-        setHeight(height);
-        float aspect = regions[frame].getRegionWidth() / (float) regions[frame].getRegionHeight();
-        setWidth(height*aspect);
-    }
-
-    public void setWithProportion(float width) {
+    public void setWidthProportion(float width) {
         setWidth(width);
         float aspect = regions[frame].getRegionWidth() / (float) regions[frame].getRegionHeight();
         setHeight(width / aspect);
+    }
+
+    public void setHeightProportion(float height) {
+        setHeight(height);
+        float aspect = regions[frame].getRegionWidth() / (float) regions[frame].getRegionHeight();
+        setWidth(height * aspect);
     }
 
     public void resize(Rect worldBounds) {
