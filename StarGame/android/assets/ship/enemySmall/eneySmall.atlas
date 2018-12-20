@@ -1,0 +1,48 @@
+
+eneySmall.png
+size: 4096,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ememySmall-1
+  rotate: false
+  xy: 2, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+ememySmall-2
+  rotate: false
+  xy: 516, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+ememySmall-3
+  rotate: false
+  xy: 1030, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+ememySmall-4
+  rotate: false
+  xy: 1544, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+ememySmall-5
+  rotate: false
+  xy: 2058, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+ememySmallBoom
+  rotate: false
+  xy: 2572, 2
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1

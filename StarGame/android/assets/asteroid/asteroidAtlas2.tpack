@@ -1,0 +1,228 @@
+asteroidAtlas.png
+format: RGBA8888
+filter: MipMapLinearNearest,Linear
+repeat: none
+asteroid
+  rotate: false
+  xy: 0, 512
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 32
+asteroid
+  rotate: false
+  xy: 128, 512
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 33
+asteroid
+  rotate: false
+  xy: 256, 512
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 34
+asteroid
+  rotate: false
+  xy: 384, 512
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 35
+asteroid
+  rotate: false
+  xy: 512, 512
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 36
+asteroid
+  rotate: false
+  xy: 640, 512
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 37
+asteroid
+  rotate: false
+  xy: 768, 512
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 38
+asteroid
+  rotate: false
+  xy: 896, 512
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 39
+asteroid
+  rotate: false
+  xy: 0, 640
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 40
+asteroid
+  rotate: false
+  xy: 128, 640
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 41
+asteroid
+  rotate: false
+  xy: 256, 640
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 42
+asteroid
+  rotate: false
+  xy: 384, 640
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 43
+asteroid
+  rotate: false
+  xy: 512, 640
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 44
+asteroid
+  rotate: false
+  xy: 640, 640
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 45
+asteroid
+  rotate: false
+  xy: 768, 640
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 46
+asteroid
+  rotate: false
+  xy: 896, 640
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 47
+asteroid
+  rotate: false
+  xy: 0, 768
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 48
+asteroid
+  rotate: false
+  xy: 128, 768
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 49
+asteroid
+  rotate: false
+  xy: 256, 768
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 50
+asteroid
+  rotate: false
+  xy: 384, 768
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 51
+asteroid
+  rotate: false
+  xy: 512, 768
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 52
+asteroid
+  rotate: false
+  xy: 640, 768
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 53
+asteroid
+  rotate: false
+  xy: 768, 768
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 54
+asteroid
+  rotate: false
+  xy: 896, 768
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 55
+asteroid
+  rotate: false
+  xy: 0, 896
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 56
+asteroid
+  rotate: false
+  xy: 128, 896
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 57
+asteroid
+  rotate: false
+  xy: 256, 896
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 58
+asteroid
+  rotate: false
+  xy: 384, 896
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 59
+asteroid
+  rotate: false
+  xy: 512, 896
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 60
+asteroid
+  rotate: false
+  xy: 640, 896
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 61
+asteroid
+  rotate: false
+  xy: 768, 896
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 62
+asteroid
+  rotate: false
+  xy: 896, 896
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: 63

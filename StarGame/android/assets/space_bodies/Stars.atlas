@@ -1,0 +1,55 @@
+
+Stars.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+star
+  rotate: false
+  xy: 2, 78
+  size: 650, 587
+  orig: 650, 587
+  offset: 0, 0
+  index: -1
+starBlue
+  rotate: false
+  xy: 2, 40
+  size: 37, 36
+  orig: 37, 36
+  offset: 0, 0
+  index: -1
+starBlue1
+  rotate: false
+  xy: 2, 2
+  size: 37, 36
+  orig: 37, 36
+  offset: 0, 0
+  index: -1
+starRed
+  rotate: false
+  xy: 654, 629
+  size: 37, 36
+  orig: 37, 36
+  offset: 0, 0
+  index: -1
+starRed1
+  rotate: false
+  xy: 654, 591
+  size: 37, 36
+  orig: 37, 36
+  offset: 0, 0
+  index: -1
+starWhite
+  rotate: false
+  xy: 693, 629
+  size: 37, 36
+  orig: 37, 36
+  offset: 0, 0
+  index: -1
+starYellow
+  rotate: false
+  xy: 41, 40
+  size: 37, 36
+  orig: 37, 36
+  offset: 0, 0
+  index: -1
