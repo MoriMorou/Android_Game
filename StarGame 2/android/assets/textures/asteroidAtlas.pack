@@ -1,0 +1,19 @@
+
+asteroidAtlas.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+asteroid
+  rotate: false
+  xy: 1, 1
+  size: 704, 232
+  orig: 704, 232
+  offset: 0, 0
+  index: -1
+ryg
+  rotate: false
+  xy: 707, 173
+  size: 80, 60
+  orig: 80, 60
+  offset: 0, 0
+  index: -1
